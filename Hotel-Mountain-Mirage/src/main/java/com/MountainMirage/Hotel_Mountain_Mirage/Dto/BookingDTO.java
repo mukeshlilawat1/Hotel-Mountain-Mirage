@@ -1,6 +1,5 @@
 package com.MountainMirage.Hotel_Mountain_Mirage.Dto;
 
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
@@ -9,7 +8,7 @@ import java.time.LocalDate;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BookingDTO {
-    private  Long id;
+    private Long id;
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
     private int numOfAdults;
@@ -18,6 +17,5 @@ public class BookingDTO {
     private String bookingConfirmationCode;
     private UserDTO user;
     private RoomDTO room;
-
 
 }
