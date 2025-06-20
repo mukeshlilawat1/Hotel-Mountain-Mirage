@@ -25,6 +25,4 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
                                                @Param("checkOutDate") LocalDate checkOutDate,
                                                @Param("roomType") String roomType);
 
-
-
 }
