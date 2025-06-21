@@ -8,6 +8,7 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,14 +43,17 @@ public class AWSS3Service {
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentType("image/jpeg");
 
+            PutObjectRequest putObjectRequest = new PutObjectRequest(BucketName, s3FileName, inputStream, metadata);
+            s3Client.putObject(putObjectRequest);
+            return  "https://" + BucketName + ".s3.amazonaws.com/"+s3FileName;
+
+
         }catch (Exception e) {
             e.printStackTrace();
             throw new OurException("unnable to upload image to s3 bucket");
 
         }
     }
-
-
-
+    
 
 }
