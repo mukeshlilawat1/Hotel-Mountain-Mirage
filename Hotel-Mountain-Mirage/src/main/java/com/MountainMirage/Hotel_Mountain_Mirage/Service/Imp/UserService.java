@@ -79,7 +79,7 @@ public class UserService implements IUserService {
 
             response.setStatusCode(200);
         } catch (OurException e) {
-            response.setStatusCode(400);
+            response.setStatusCode(404);
             response.setMessage(e.getMessage());
         } catch (Exception e) {
             response.setStatusCode(500);
@@ -119,7 +119,7 @@ public class UserService implements IUserService {
             response.setStatusCode(200);
             response.setUser(userDTO);
         } catch (OurException e) {
-            response.setStatusCode(400);
+            response.setStatusCode(404);
             response.setMessage(e.getMessage());
         } catch (Exception e) {
             response.setStatusCode(500);
@@ -154,17 +154,41 @@ public class UserService implements IUserService {
         Response response = new Response();
 
         try {
+            User user = userRepository.findById(Long.valueOf(userId)).orElseThrow(() -> new OurException("user not found"));
+            UserDTO userDTO = Utils.mapUserEntityToUserDTO(user);
+
+            response.setMessage("Successfully");
+            response.setStatusCode(200);
+            response.setUser(userDTO);
 
         } catch (OurException e) {
-            response.setStatusCode();
+            response.setStatusCode(404);
+            response.setMessage(e.getMessage());
         } catch (Exception e) {
             response.setStatusCode(500);
+            response.setMessage("Error getting a user by id" + e.getMessage());
         }
         return response;
     }
 
     @Override
     public Response getUserInfo(String email) {
+        Response response = new Response();
 
+        try {
+            User user = userRepository.findByEmail(email).orElseThrow(() -> new OurException("User not found"));
+            UserDTO userDTO = Utils.mapUserEntityToUserDTO(user);
+
+            response.setMessage("Successfully");
+            response.setStatusCode(200);
+            response.setUser(userDTO);
+        } catch (OurException e) {
+            response.setStatusCode(404);
+            response.setMessage(e.getMessage());
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error ");
+        }
+        return response;
     }
 }
