@@ -109,21 +109,62 @@ public class UserService implements IUserService {
 
     @Override
     public Response getUserBookingHistory(String userId) {
-        return null;
+        Response response = new Response();
+
+        try {
+            User user = userRepository.findById(Long.valueOf(userId)).orElseThrow(() -> new OurException("User Not Found"));
+            UserDTO userDTO = Utils.mapUserEntityToUserDTOPlusUserBookingAndRoom(user);
+
+            response.setMessage("Successfully");
+            response.setStatusCode(200);
+            response.setUser(userDTO);
+        } catch (OurException e) {
+            response.setStatusCode(400);
+            response.setMessage(e.getMessage());
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error getting user booking in " + e.getMessage());
+        }
+        return response;
     }
 
     @Override
     public Response DeleteUser(String userId) {
-        return null;
+        Response response = new Response();
+
+        try {
+            userRepository.findById(Long.valueOf(userId)).orElseThrow(() -> new OurException("user not found"));
+            userRepository.deleteById(Long.valueOf(userId));
+
+            response.setMessage("Successfully");
+            response.setStatusCode(200);
+
+        } catch (OurException e) {
+            response.setStatusCode(404);
+            response.setMessage(e.getMessage());
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error deleting a user" + e.getMessage());
+        }
+        return response;
     }
 
     @Override
     public Response getUserById(String userId) {
-        return null;
+        Response response = new Response();
+
+        try {
+
+        } catch (OurException e) {
+            response.setStatusCode();
+        } catch (Exception e) {
+            response.setStatusCode(500);
+        }
+        return response;
     }
 
     @Override
     public Response getUserInfo(String email) {
-        return null;
+
     }
 }
