@@ -111,7 +111,7 @@ public class RoomService implements IRoomService {
 
     @Override
     public Response getAvailableRoomsByDateAndType(LocalDate checkInDate, LocalDate checkOutDate, String roomType) {
-        return;
+        return null;
     }
 
     @Override
