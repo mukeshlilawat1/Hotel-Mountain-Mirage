@@ -1,5 +1,6 @@
 package com.MountainMirage.Hotel_Mountain_Mirage.Service.Imp;
 
+import com.MountainMirage.Hotel_Mountain_Mirage.Dto.BookingDTO;
 import com.MountainMirage.Hotel_Mountain_Mirage.Dto.Response;
 import com.MountainMirage.Hotel_Mountain_Mirage.Entity.Booking;
 import com.MountainMirage.Hotel_Mountain_Mirage.Entity.Room;
@@ -12,6 +13,7 @@ import com.MountainMirage.Hotel_Mountain_Mirage.Service.Interfac.IBookingService
 import com.MountainMirage.Hotel_Mountain_Mirage.Service.Interfac.IRoomService;
 import com.MountainMirage.Hotel_Mountain_Mirage.Utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.yaml.snakeyaml.tokens.ScalarToken;
 
 import java.util.List;
@@ -60,7 +62,7 @@ public class BookingService implements IBookingService {
         } catch (OurException e) {
             response.setStatusCode(404);
             response.setMessage(e.getMessage());
-        }catch (Exception e) {
+        } catch (Exception e) {
             response.setStatusCode(500);
             response.setMessage("Error saving a booking" + e.getMessage());
         }
@@ -69,17 +71,56 @@ public class BookingService implements IBookingService {
 
     @Override
     public Response findBookingByConfirmationCode(String confirmationCode) {
-
+        Response response = new Response();
+        try {
+            Booking booking = bookingRepository.findByBookingConfirmationCode(confirmationCode).orElseThrow(() -> new OurException("Booking Not Found"));
+            BookingDTO bookingDTO = Utils.mapBookingEntityToBookingDTOPlusBookedRooms(booking, true);
+            response.setMessage("Successfully Booked Room");
+            response.setStatusCode(200);
+            response.setBooking(bookingDTO);
+        } catch (OurException e) {
+            response.setStatusCode(404);
+            response.setMessage(e.getMessage());
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error saving a booking" + e.getMessage());
+        }
+        return response;
     }
 
     @Override
     public Response getAllBookings() {
-        return null;
+        Response response = new Response();
+
+        try {
+            List<Booking> bookings = bookingRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+            List<BookingDTO> bookingDTOList = Utils.mapBookingListEntityToUserListDTO(bookings);
+            response.setStatusCode(200);
+            response.setBookingList(bookingDTOList);
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error getting all booking" + e.getMessage());
+        }
+        return response;
     }
 
     @Override
-    public Response cancelBooking() {
-        return null;
+    public Response cancelBooking(Long bookingId) {
+        Response response = new Response();
+
+        try {
+            bookingRepository.findById(bookingId).orElseThrow(() -> new OurException("Booking not found"));
+            bookingRepository.deleteById(bookingId);
+            response.setMessage("Booking Cancelled Successfully");
+            response.setStatusCode(200);
+        } catch (OurException e) {
+            response.setStatusCode(404);
+            response.setMessage(e.getMessage());
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error canceling a bookings" + e.getMessage());
+        }
+        return response;
     }
 
     private boolean roomIsAvailable(Booking bookingRequest, List<Booking> existingBookings) {
