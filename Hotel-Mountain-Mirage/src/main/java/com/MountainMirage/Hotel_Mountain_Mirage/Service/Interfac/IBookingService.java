@@ -7,5 +7,5 @@ public interface IBookingService  {
  Response saveBooking(Long rootId, Long userId, Booking bookingRequest);
       Response findBookingByConfirmationCode(String confirmationCode);
       Response getAllBookings();
-      Response cancelBooking();
+      Response cancelBooking(Long bookingId);
 }
