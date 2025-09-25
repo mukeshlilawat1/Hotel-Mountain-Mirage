@@ -4,7 +4,6 @@ package com.MountainMirage.Hotel_Mountain_Mirage.Controller;
 import com.MountainMirage.Hotel_Mountain_Mirage.Dto.LoginRequest;
 import com.MountainMirage.Hotel_Mountain_Mirage.Dto.Response;
 import com.MountainMirage.Hotel_Mountain_Mirage.Entity.User;
-import com.MountainMirage.Hotel_Mountain_Mirage.Service.Imp.UserService;
 import com.MountainMirage.Hotel_Mountain_Mirage.Service.Interfac.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,7 @@ import org.springframework.web.servlet.HandlerMapping;
 
 @RestController
 @RequestMapping("/auth")
-public class Auth {
+public class AuthController {
     @Autowired
     private IUserService userService;
     @Autowired
