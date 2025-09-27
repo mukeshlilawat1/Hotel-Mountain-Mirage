@@ -1,7 +1,6 @@
 # 🏨 Hotel-Mountain-Mirage
 
 ![Stars](https://img.shields.io/github/stars/mukeshillawat1/Hotel-Mountain-Mirage.svg?style=social)
-![Forks](https://img.shields.io/github/forks/mukeshillawat1/Hotel-Mountain-Mirage.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Spring Boot](https://img.shields.io/badge/Backend-Spring_Boot-blue)
 ![React](https://img.shields.io/badge/Frontend-ReactJS-blue)
@@ -40,4 +39,101 @@ Hotel-Mountain-Mirage is a **full-stack hotel booking and management web applica
 ---
 
 ## 🗺️ Project Structure
+- Hotel-Mountain-Mirage/
+- │ ├── backend/ # Spring Boot source, controllers, services
+- │ ├── frontend/ # ReactJS client SPA
+- │ ├── .vscode/ # Editor configs
+- │ └── .idea/ # JetBrains configs
+
+
+---
+
+## 📦 Getting Started
+
+### Prerequisites
+
+- Java 17+
+- Node.js & npm
+- Maven
+- PostgreSQL database
+
+### Steps
+
+1. **Clone the repo**  
+   `git clone https://github.com/mukeshillawat1/Hotel-Mountain-Mirage.git`  
+
+2. **Backend (Spring Boot):**  
+   - Configure `application.properties` for DB & JWT secrets  
+   - Run:  
+     `mvn spring-boot:run`
+
+3. **Frontend (ReactJS):**  
+   - `cd Hotel-Mountain-Mirage/frontend`
+   - `npm install`
+   - `npm start`
+
+4. **Access Local App:**  
+   - Frontend: `http://localhost:3000`  
+   - Backend: `http://localhost:8080`  
+
+---
+
+## 🛠️ API Endpoints
+
+| Endpoint           | Method | Description         |
+|--------------------|--------|--------------------|
+| /rooms             | GET    | List rooms         |
+| /rooms             | POST   | Add room           |
+| /rooms/{id}        | PUT    | Update room        |
+| /rooms/{id}        | DELETE | Remove room        |
+| /auth/login        | POST   | Login (JWT)        |
+| /bookings/check    | GET    | Check availability |
+
+---
+
+## 👤 Contributors
+
+- Mukesh Shillawat ☀️
+
+---
+
+## ❤️ Acknowledgements
+
+- Spring Boot community
+- ReactJS community
+- AWS, PostgreSQL docs
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+## 🎉 Screenshots
+
+> _Add screenshots/GIFs of key UI features for extra points!_
+
+---
+
+## 🤝 Contributing
+
+Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
+
+---
+
+## 📚 Resources
+
+- [Spring Boot Docs](https://spring.io/projects/spring-boot)
+- [ReactJS Docs](https://reactjs.org/)
+- [AWS S3 Docs](https://docs.aws.amazon.com/s3/)
+- [Markdown Emoji Full List](https://gist.github.com/rxaviers/7360908)
+
+---
+
+> _Star ⭐ this repo if you find it useful!_
+
+
+  
 
