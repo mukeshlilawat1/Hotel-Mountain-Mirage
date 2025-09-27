@@ -93,7 +93,7 @@ Hotel-Mountain-Mirage is a **full-stack hotel booking and management web applica
 
 ## 👤 Contributors
 
-- Mukesh Shillawat ☀️
+- Mukesh lilawat ☀️
 
 ---
 
