@@ -24,6 +24,7 @@ public class User implements UserDetails {
 
     @NotBlank(message = "Name is Required")
     private String name;
+
     private String PhoneNumber;
 
     @NotBlank(message = "Password is Required")

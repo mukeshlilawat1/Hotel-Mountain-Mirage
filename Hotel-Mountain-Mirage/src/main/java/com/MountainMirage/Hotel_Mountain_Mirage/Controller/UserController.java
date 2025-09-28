@@ -2,16 +2,14 @@ package com.MountainMirage.Hotel_Mountain_Mirage.Controller;
 
 
 import com.MountainMirage.Hotel_Mountain_Mirage.Dto.Response;
+import com.MountainMirage.Hotel_Mountain_Mirage.Entity.User;
 import com.MountainMirage.Hotel_Mountain_Mirage.Service.Imp.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.swing.text.html.parser.Entity;
 import java.net.Authenticator;
@@ -54,4 +52,11 @@ public class UserController {
         Response response = userService.getUserBookingHistory(userId);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
+
+//    @PostMapping("/register")
+//    public ResponseEntity<Response> registerUser(@RequestBody User user) {
+//        Response response = userService.register(user);
+//        return ResponseEntity.status(response.getStatusCode()).body(response);
+//    }
+
 }
