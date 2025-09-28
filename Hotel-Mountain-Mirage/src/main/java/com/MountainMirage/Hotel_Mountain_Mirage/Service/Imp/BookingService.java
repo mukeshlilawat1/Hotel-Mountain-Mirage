@@ -14,10 +14,12 @@ import com.MountainMirage.Hotel_Mountain_Mirage.Service.Interfac.IRoomService;
 import com.MountainMirage.Hotel_Mountain_Mirage.Utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 import org.yaml.snakeyaml.tokens.ScalarToken;
 
 import java.util.List;
 
+@Service
 public class BookingService implements IBookingService {
 
     @Autowired
