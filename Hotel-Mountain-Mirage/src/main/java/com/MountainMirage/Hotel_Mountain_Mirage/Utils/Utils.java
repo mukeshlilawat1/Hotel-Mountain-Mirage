@@ -106,13 +106,7 @@ public class Utils {
     }
 
     public static UserDTO mapUserEntityToUserDTOPlusUserBookingAndRoom(User user) {
-        UserDTO userDTO = new UserDTO();
-
-        userDTO.setId(user.getId());
-        userDTO.setName(user.getName());
-        userDTO.setEmail(user.getEmail());
-        userDTO.setPhoneNumber(user.getPhoneNumber());
-        userDTO.setRole(user.getRole());
+        UserDTO userDTO = mapUserEntityToUserDTO(user);
 
         if (!user.getBookings().isEmpty()) {
             userDTO.setBookings(
