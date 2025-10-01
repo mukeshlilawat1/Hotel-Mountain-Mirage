@@ -6,7 +6,7 @@
   <img src="https://img.shields.io/github/last-commit/mukeshlilawat1/Hotel-Mountain-Mirage" alt="Last Commit" />
   <img src="https://img.shields.io/github/languages/top/mukeshlilawat1/Hotel-Mountain-Mirage" alt="Top Language" />
   <img src="https://img.shields.io/github/issues/mukeshlilawat1/Hotel-Mountain-Mirage" alt="Open Issues" />
-  <img src="https://img.shields.io/github/license/mukeshlilawat/Hotel-Mountain-Mirage" alt="License" />
+  <img src="https://img.shields.io/github/LICENSE/mukeshlilawat/Hotel-Mountain-Mirage" alt="LICENSE" />
 </p>
 ---
 
