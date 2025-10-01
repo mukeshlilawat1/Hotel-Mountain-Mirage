@@ -1,6 +1,6 @@
 # 🏨 Hotel-Mountain-Mirage
 
-![Stars](https://img.shields.io/github/stars/mukeshillawat1/Hotel-Mountain-Mirage.svg?style=social)
+ <img src="https://img.shields.io/github/stars/mukeshlilawat1/Hotel-Mountain-Mirage?style=social" alt="GitHub Stars" />
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Spring Boot](https://img.shields.io/badge/Backend-Spring_Boot-blue)
 ![React](https://img.shields.io/badge/Frontend-ReactJS-blue)
