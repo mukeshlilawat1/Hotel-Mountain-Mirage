@@ -1,12 +1,13 @@
 # 🏨 Hotel-Mountain-Mirage
 
- <img src="https://img.shields.io/github/stars/mukeshlilawat1/Hotel-Mountain-Mirage?style=social" alt="GitHub Stars" />
-![License](https://img.shields.io/badge/license-MIT-green.svg)
-![Spring Boot](https://img.shields.io/badge/Backend-Spring_Boot-blue)
-![React](https://img.shields.io/badge/Frontend-ReactJS-blue)
-![AWS](https://img.shields.io/badge/Deploy-AWS-yellow)
-![JWT](https://img.shields.io/badge/Auth-JWT-orange)
-
+<p align="center">
+  <img src="https://img.shields.io/github/stars/mukeshlilawat1/Hotel-Mountain-Mirage?style=social" alt="GitHub Stars" />
+  <img src="https://img.shields.io/github/forks/mukeshlilawat1/Hotel-Mountain-Mirage?style=social" alt="GitHub Forks" />
+  <img src="https://img.shields.io/github/last-commit/mukeshlilawat1/Hotel-Mountain-Mirage" alt="Last Commit" />
+  <img src="https://img.shields.io/github/languages/top/mukeshlilawat1/Hotel-Mountain-Mirage" alt="Top Language" />
+  <img src="https://img.shields.io/github/issues/mukeshlilawat1/Hotel-Mountain-Mirage" alt="Open Issues" />
+  <img src="https://img.shields.io/github/license/mukeshlilawat/Hotel-Mountain-Mirage" alt="License" />
+</p>
 ---
 
 ## ✨ Overview
