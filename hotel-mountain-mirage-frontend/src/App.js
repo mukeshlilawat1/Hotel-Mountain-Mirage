@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './component/common/Navbar';
 import HomePage from './component/home/Home';
 import FooterComponent from './component/common/Footer';
+import AllRoomsPage from './component/booking_rooms/AllRoomsPage';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <div className='content'>
           <Routes>
             <Route exact path='/home' element={<HomePage />} />
+            <Route exact path='/rooms' element={<AllRoomsPage />} />
           </Routes>
 
         </div>
