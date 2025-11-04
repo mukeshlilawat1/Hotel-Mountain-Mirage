@@ -1,191 +1,228 @@
-import axios from "axios"
+import axios from "axios";
 
 export default class ApiService {
     static BASE_URL = "http://localhost:8080";
 
-    static getHeader() {
-        const token = localStorage.getItem("token")
+    // ✅ Helper: Safely get headers (with token validation)
+    static getHeader(requireAuth = true) {
+        const token = localStorage.getItem("token");
+
+        if (requireAuth && (!token || token === "null" || token === "undefined")) {
+            console.warn("⚠️ Missing or invalid token. User may not be logged in.");
+            return { "Content-Type": "application/json" };
+        }
+
         return {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         };
     }
 
-    // Auth
+    // 🧠 Interceptor for handling 403 globally
+    static initInterceptor() {
+        axios.interceptors.response.use(
+            (response) => response,
+            (error) => {
+                if (error.response && error.response.status === 403) {
+                    console.warn("🚫 Forbidden (403): Token expired or invalid. Logging out...");
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("role");
+                    // Optionally redirect user to login page if using React Router
+                    // window.location.href = "/login";
+                }
+                return Promise.reject(error);
+            }
+        );
+    }
 
-    // this register a new user
+    /** 🔐 AUTH SECTION */
+
     static async registerUser(register) {
-        const response = await axios.post(`${this.BASE_URL}/auth/register`, register);
-        return response.data;
+        try {
+            const response = await axios.post(`${this.BASE_URL}/auth/register`, register);
+            return response.data;
+        } catch (error) {
+            console.error("❌ Error registering user:", error);
+            throw error;
+        }
     }
 
-    // this login a registered user
     static async loginUser(loginDetails) {
-        const response = await axios.post(`${this.BASE_URL}/auth/login`, loginDetails);
-        return response.data;
+        try {
+            const response = await axios.post(`${this.BASE_URL}/auth/login`, loginDetails);
+            const data = response.data;
+
+            if (data?.token) {
+                localStorage.setItem("token", data.token);
+            }
+            if (data?.role) {
+                localStorage.setItem("role", data.role);
+            }
+
+            return data;
+        } catch (error) {
+            console.error("❌ Login failed:", error);
+            throw error;
+        }
     }
 
-    /***USERS */
+    /** 👤 USERS SECTION */
 
-
-    /*  This is  to get the user profile */
     static async getAllUsers() {
         const response = await axios.get(`${this.BASE_URL}/users/all`, {
-            headers: this.getHeader()
-        })
-        return response.data
+            headers: this.getHeader(),
+        });
+        return response.data;
     }
 
     static async getUserProfile() {
+        const headers = this.getHeader();
+        if (!headers.Authorization) {
+            throw new Error("User not logged in or token missing.");
+        }
+
         const response = await axios.get(`${this.BASE_URL}/users/get-logged-in-profile-info`, {
-            headers: this.getHeader()
-        })
-        return response.data
+            headers,
+        });
+        return response.data;
     }
 
-
-    /* This is the  to get a single user */
     static async getUser(userId) {
         const response = await axios.get(`${this.BASE_URL}/users/get-by-id/${userId}`, {
-            headers: this.getHeader()
-        })
-        return response.data
+            headers: this.getHeader(),
+        });
+        return response.data;
     }
 
-    /* This is the  to get user bookings by the user id */
     static async getUserBookings(userId) {
         const response = await axios.get(`${this.BASE_URL}/users/get-user-bookings/${userId}`, {
-            headers: this.getHeader()
-        })
-        return response.data
+            headers: this.getHeader(),
+        });
+        return response.data;
     }
 
-
-    /* This is to delete a user */
     static async deleteUser(userId) {
         const response = await axios.delete(`${this.BASE_URL}/users/delete/${userId}`, {
-            headers: this.getHeader()
-        })
-        return response.data
+            headers: this.getHeader(),
+        });
+        return response.data;
     }
 
-    /**ROOM */
-    /* This  adds a new room room to the database */
+    /** 🏨 ROOMS SECTION */
+
     static async addRoom(formData) {
         const result = await axios.post(`${this.BASE_URL}/rooms/add`, formData, {
             headers: {
                 ...this.getHeader(),
-                'Content-Type': 'multipart/form-data'
-            }
+                "Content-Type": "multipart/form-data",
+            },
         });
         return result.data;
     }
 
-    /* This  gets all available rooms */
     static async getAllAvailableRooms() {
-        const result = await axios.get(`${this.BASE_URL}/rooms/all-available-rooms`)
-        return result.data
+        const result = await axios.get(`${this.BASE_URL}/rooms/all-available-rooms`);
+        return result.data;
     }
 
-
-    /* This  gets all available by dates rooms from the database with a given date and a room type */
     static async getAvailableRoomsByDateAndType(checkInDate, checkOutDate, roomType) {
         const result = await axios.get(
-            `${this.BASE_URL}/rooms/available-rooms-by-date-and-type?checkInDate=${checkInDate}
-		&checkOutDate=${checkOutDate}&roomType=${roomType}`
-        )
-        return result.data
+            `${this.BASE_URL}/rooms/available-rooms-by-date-and-type?checkInDate=${checkInDate}&checkOutDate=${checkOutDate}&roomType=${roomType}`
+        );
+        return result.data;
     }
 
-    /* This  gets all room types from thee database */
     static async getRoomTypes() {
-        const response = await axios.get(`${this.BASE_URL}/rooms/types`)
-        return response.data
-    }
-    /* This  gets all rooms from the database */
-    static async getAllRooms() {
-        const result = await axios.get(`${this.BASE_URL}/rooms/all`)
-        return result.data
-    }
-    /* This function gets a room by the id */
-    static async getRoomById(roomId) {
-        const result = await axios.get(`${this.BASE_URL}/rooms/room-by-id/${roomId}`)
-        return result.data
+        const response = await axios.get(`${this.BASE_URL}/rooms/types`);
+        return response.data;
     }
 
-    /* This  deletes a room by the Id */
+    static async getAllRooms() {
+        const result = await axios.get(`${this.BASE_URL}/rooms/all`);
+        return result.data;
+    }
+
+    static async getRoomById(roomId) {
+        const result = await axios.get(`${this.BASE_URL}/rooms/room-by-id/${roomId}`);
+        return result.data;
+    }
+
     static async deleteRoom(roomId) {
         const result = await axios.delete(`${this.BASE_URL}/rooms/delete/${roomId}`, {
-            headers: this.getHeader()
-        })
-        return result.data
+            headers: this.getHeader(),
+        });
+        return result.data;
     }
 
-    /* This updates a room */
     static async updateRoom(roomId, formData) {
         const result = await axios.put(`${this.BASE_URL}/rooms/update/${roomId}`, formData, {
             headers: {
                 ...this.getHeader(),
-                'Content-Type': 'multipart/form-data'
-            }
+                "Content-Type": "multipart/form-data",
+            },
         });
         return result.data;
     }
 
+    /** 🧾 BOOKINGS SECTION */
 
-    /**BOOKING */
-    /* This  saves a new booking to the database */
     static async bookRoom(roomId, userId, booking) {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            throw new Error("User not logged in. Please login first.");
+        }
 
-        console.log("USER ID IS: " + userId)
+        const response = await axios.post(
+            `${this.BASE_URL}/bookings/book-room/${roomId}/${userId}`,
+            booking,
+            {
+                headers: this.getHeader(),
+            }
+        );
 
-        const response = await axios.post(`${this.BASE_URL}/bookings/book-room/${roomId}/${userId}`, booking, {
-            headers: this.getHeader()
-        })
-        return response.data
+        return response.data;
     }
 
-    /* This  gets all bookings from the database */
     static async getAllBookings() {
         const result = await axios.get(`${this.BASE_URL}/bookings/all`, {
-            headers: this.getHeader()
-        })
-        return result.data
+            headers: this.getHeader(),
+        });
+        return result.data;
     }
 
-    /* This  get booking by the confirmation code */
     static async getBookingByConfirmationCode(bookingCode) {
-        const result = await axios.get(`${this.BASE_URL}/bookings/get-by-confirmation-code/${bookingCode}`)
-        return result.data
+        const result = await axios.get(
+            `${this.BASE_URL}/bookings/get-by-confirmation-code/${bookingCode}`
+        );
+        return result.data;
     }
 
-    /* This is the  to cancel user booking */
     static async cancelBooking(bookingId) {
         const result = await axios.delete(`${this.BASE_URL}/bookings/cancel/${bookingId}`, {
-            headers: this.getHeader()
-        })
-        return result.data
+            headers: this.getHeader(),
+        });
+        return result.data;
     }
 
+    /** 🚪 AUTH HELPERS */
 
-    /**AUTHENTICATION CHECKER */
     static logout() {
-        localStorage.removeItem('token')
-        localStorage.removeItem('role')
+        localStorage.removeItem("token");
+        localStorage.removeItem("role");
     }
 
     static isAuthenticated() {
-        const token = localStorage.getItem('token')
-        return !!token
+        const token = localStorage.getItem("token");
+        return !!token && token !== "null" && token !== "undefined";
     }
 
     static isAdmin() {
-        const role = localStorage.getItem('role')
-        return role === 'ADMIN'
+        const role = localStorage.getItem("role");
+        return role === "ADMIN";
     }
 
     static isUser() {
-        const role = localStorage.getItem('role')
-        return role === 'USER'
+        const role = localStorage.getItem("role");
+        return role === "USER";
     }
 }
