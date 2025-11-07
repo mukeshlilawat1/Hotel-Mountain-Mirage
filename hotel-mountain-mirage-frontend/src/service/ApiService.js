@@ -3,10 +3,18 @@ import axios from "axios";
 export default class ApiService {
     static BASE_URL = "http://localhost:8080";
 
-    // ✅ Helper: Safely get headers (with token validation)
+    // ✅ Helper: Safely get headers (with token validation + debug)
     static getHeader(requireAuth = true) {
         const token = localStorage.getItem("token");
+        const role = localStorage.getItem("role");
 
+        // Debug info for development
+        console.log("🧠 Attaching Headers:", {
+            Authorization: token ? `Bearer ${token.substring(0, 20)}...` : "❌ No Token",
+            Role: role || "❌ No Role",
+        });
+
+        // ❌ Prevent sending undefined/invalid token
         if (requireAuth && (!token || token === "null" || token === "undefined")) {
             console.warn("⚠️ Missing or invalid token. User may not be logged in.");
             return { "Content-Type": "application/json" };
@@ -18,17 +26,21 @@ export default class ApiService {
         };
     }
 
-    // 🧠 Interceptor for handling 403 globally
+    // 🧠 Global interceptor to handle 401 / 403 token issues globally
     static initInterceptor() {
         axios.interceptors.response.use(
             (response) => response,
             (error) => {
-                if (error.response && error.response.status === 403) {
-                    console.warn("🚫 Forbidden (403): Token expired or invalid. Logging out...");
-                    localStorage.removeItem("token");
-                    localStorage.removeItem("role");
-                    // Optionally redirect user to login page if using React Router
-                    // window.location.href = "/login";
+                if (error.response) {
+                    const { status } = error.response;
+                    if (status === 401 || status === 403) {
+                        console.warn(
+                            `🚫 Token Invalid (${status}): Logging out user automatically...`
+                        );
+                        localStorage.removeItem("token");
+                        localStorage.removeItem("role");
+                        window.location.href = "/login";
+                    }
                 }
                 return Promise.reject(error);
             }
@@ -52,13 +64,11 @@ export default class ApiService {
             const response = await axios.post(`${this.BASE_URL}/auth/login`, loginDetails);
             const data = response.data;
 
-            if (data?.token) {
-                localStorage.setItem("token", data.token);
-            }
-            if (data?.role) {
-                localStorage.setItem("role", data.role);
-            }
+            // ✅ Store token & role safely
+            if (data?.token) localStorage.setItem("token", data.token);
+            if (data?.role) localStorage.setItem("role", data.role);
 
+            console.log("✅ Login Success:", data);
             return data;
         } catch (error) {
             console.error("❌ Login failed:", error);
@@ -121,7 +131,7 @@ export default class ApiService {
     }
 
     static async getAllAvailableRooms() {
-        const result = await axios.get(`${this.BASE_URL}/rooms/all-available-rooms`);
+        const result = await axios.get(`${this.BASE_URL}/rooms/all-available-room`);
         return result.data;
     }
 
@@ -147,11 +157,25 @@ export default class ApiService {
         return result.data;
     }
 
+    /** ✅ Fixed DELETE Room (handles 403 + missing headers safely) */
     static async deleteRoom(roomId) {
-        const result = await axios.delete(`${this.BASE_URL}/rooms/delete/${roomId}`, {
-            headers: this.getHeader(),
-        });
-        return result.data;
+        try {
+            console.log(`🧨 Attempting to delete room ID: ${roomId}`);
+            const headers = this.getHeader();
+
+            const result = await axios.delete(`${this.BASE_URL}/rooms/delete/${roomId}`, {
+                headers,
+            });
+            console.log("✅ Room deleted successfully:", result.data);
+            return result.data;
+        } catch (error) {
+            if (error.response) {
+                console.error(`❌ Delete Room failed [${error.response.status}]:`, error.response.data);
+            } else {
+                console.error("❌ Network or server error while deleting room:", error);
+            }
+            throw error;
+        }
     }
 
     static async updateRoom(roomId, formData) {
@@ -168,16 +192,12 @@ export default class ApiService {
 
     static async bookRoom(roomId, userId, booking) {
         const token = localStorage.getItem("token");
-        if (!token) {
-            throw new Error("User not logged in. Please login first.");
-        }
+        if (!token) throw new Error("User not logged in. Please login first.");
 
         const response = await axios.post(
             `${this.BASE_URL}/bookings/book-room/${roomId}/${userId}`,
             booking,
-            {
-                headers: this.getHeader(),
-            }
+            { headers: this.getHeader() }
         );
 
         return response.data;
@@ -209,6 +229,8 @@ export default class ApiService {
     static logout() {
         localStorage.removeItem("token");
         localStorage.removeItem("role");
+        window.location.href = "/login";
+        console.log("👋 Logged out successfully.");
     }
 
     static isAuthenticated() {
@@ -216,13 +238,14 @@ export default class ApiService {
         return !!token && token !== "null" && token !== "undefined";
     }
 
+    // ✅ Fixed: supports both ADMIN and ROLE_ADMIN
     static isAdmin() {
         const role = localStorage.getItem("role");
-        return role === "ADMIN";
+        return role === "ADMIN" || role === "ROLE_ADMIN";
     }
 
     static isUser() {
         const role = localStorage.getItem("role");
-        return role === "USER";
+        return role === "USER" || role === "ROLE_USER";
     }
 }
