@@ -47,7 +47,7 @@ public class AwsS3Service {
 
         }catch (Exception ex) {
             ex.printStackTrace();
-            throw new OurException("Unable to save image to s3 bucket")
+            throw new OurException("Unable to save image to s3 bucket");
         }
     }
 
