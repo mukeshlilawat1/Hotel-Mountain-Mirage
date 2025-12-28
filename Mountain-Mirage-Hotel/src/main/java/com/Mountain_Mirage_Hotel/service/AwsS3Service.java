@@ -16,7 +16,6 @@ import java.io.InputStream;
 
 @Service
 public class AwsS3Service {
-
     private final String bucketName = "mountain-hotel-bucket-images";
 
     @Value("{aws.s3.access.key}")
@@ -24,7 +23,6 @@ public class AwsS3Service {
 
     @Value("{aws.s3.secrete.key}")
     private String awsS3SecretKey;
-
 
     public String saveImageToS3(MultipartFile photo) {
         String s3LocationImage = null;
@@ -35,16 +33,12 @@ public class AwsS3Service {
             BasicAWSCredentials awsCredentials = new BasicAWSCredentials(awsS3AccessKey, awsS3SecretKey);
             AmazonS3 amazonS3 = AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
                     .withRegion(Regions.US_EAST_1).build();
-
             InputStream inputStream = photo.getInputStream();
-
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentType("image/jpeg");
-
             PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, s3FileName, inputStream, metadata);
             amazonS3.putObject(putObjectRequest);
             return "https://"+ bucketName + ".s3.amazonaws.com/" + s3FileName;
-
         }catch (Exception ex) {
             ex.printStackTrace();
             throw new OurException("Unable to save image to s3 bucket");
