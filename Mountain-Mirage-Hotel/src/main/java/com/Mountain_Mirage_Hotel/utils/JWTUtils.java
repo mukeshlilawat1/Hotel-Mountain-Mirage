@@ -25,7 +25,7 @@ public class JWTUtils {
         // 🔐 Strong secret string (256+ bit)
         String secretString =
                 "f9QwZ8K7R2xA4mP6N@EJcS!t#V0LhDkB5M^Y&Ue1W";
-        byte[] keyBytes = Base64.getDecoder().decode(secretString.getBytes(StandardCharsets.UTF_8));
+        byte[] keyBytes = secretString.getBytes(StandardCharsets.UTF_8);
         this.secretKey = new SecretKeySpec(keyBytes, "HmacSHA256");
     }
 
