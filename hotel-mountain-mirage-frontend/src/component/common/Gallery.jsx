@@ -8,17 +8,17 @@ const Gallery = () => {
     const [category, setCategory] = useState("All");
 
     const galleryMedia = [
-        { src: "/assets/gallery/room1.jpg", category: "Rooms", type: "image" },
-        { src: "/assets/gallery/room2.jpg", category: "Rooms", type: "image" },
-        { src: "/assets/gallery/room3.jpg", category: "Rooms", type: "image" },
-        { src: "/assets/gallery/dining1.jpg", category: "Dining", type: "image" },
-        { src: "/assets/gallery/dining2.jpg", category: "Dining", type: "image" },
-        { src: "/assets/gallery/event1.jpg", category: "Events", type: "image" },
-        { src: "/assets/gallery/spa1.jpg", category: "Spa", type: "image" },
-        { src: "/assets/gallery/nature1.jpg", category: "Nature", type: "image" },
-        { src: "/assets/gallery/nature2.jpg", category: "Nature", type: "image" },
-        { src: "/assets/gallery/hotel-tour.mp4", category: "Videos", type: "video" },
-        { src: "/assets/gallery/spa-tour.mp4", category: "Videos", type: "video" },
+        { src: "../assets/images/room1.jpg", category: "Rooms", type: "image" },
+        { src: "../assets/images/room2.jpg", category: "Rooms", type: "image" },
+        { src: "../assets/images/room3.jpg", category: "Rooms", type: "image" },
+        { src: "../assets/images/dining1.jpg", category: "Dining", type: "image" },
+        { src: "../assets/images/dining2.jpg", category: "Dining", type: "image" },
+        { src: "../assets/images/event1.jpg", category: "Events", type: "image" },
+        { src: "../assets/images/spa1.jpg", category: "Spa", type: "image" },
+        { src: "../assets/images/nature1.jpg", category: "Nature", type: "image" },
+        { src: "../assets/images/nature2.jpg", category: "Nature", type: "image" },
+        { src: "../assets/images/hotel-tour.mp4", category: "Videos", type: "video" },
+        { src: "../assets/images/spa-tour.mp4", category: "Videos", type: "video" },
     ];
 
     const filteredMedia =
@@ -89,8 +89,8 @@ const Gallery = () => {
                             whileTap={{ scale: 0.9 }}
                             onClick={() => setCategory(btn.name)}
                             className={`flex items-center gap-2 px-5 py-2 rounded-full border text-sm font-medium transition-all duration-300 ${category === btn.name
-                                    ? "bg-teal-500 text-white border-teal-500 shadow-lg"
-                                    : "bg-white text-gray-700 border-gray-300 hover:bg-teal-50"
+                                ? "bg-teal-500 text-white border-teal-500 shadow-lg"
+                                : "bg-white text-gray-700 border-gray-300 hover:bg-teal-50"
                                 }`}
                         >
                             {btn.icon}

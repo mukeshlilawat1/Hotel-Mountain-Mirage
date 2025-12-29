@@ -20,7 +20,7 @@ const EventsCelebrations = () => {
             {/* ================= HERO SECTION ================= */}
             <section className="relative h-[75vh] flex items-center justify-center overflow-hidden">
                 <motion.img
-                    src="/assets/images/event-hero.webp"
+                    src="../assets/images/hotel.webp"
                     alt="Luxury Events at Mountain Mirage"
                     initial={{ scale: 1 }}
                     animate={{ scale: 1.1 }}
@@ -62,19 +62,19 @@ const EventsCelebrations = () => {
                             icon: <CalendarHeart size={36} className="text-pink-500" />,
                             title: "Weddings",
                             desc: "Exchange vows under the mountains — elegant decor, fine dining, and an unforgettable setting.",
-                            img: "/assets/events/wedding.jpg",
+                            img: "../assets/images/wedding.jpg",
                         },
                         {
                             icon: <Briefcase size={36} className="text-blue-500" />,
                             title: "Corporate Retreats",
                             desc: "Perfect venues for business conferences, team-building retreats, and executive meetings.",
-                            img: "/assets/events/corporate.jpg",
+                            img: "../assets/images/corporate.jpg",
                         },
                         {
                             icon: <PartyPopper size={36} className="text-yellow-500" />,
                             title: "Private Celebrations",
                             desc: "Host birthdays, anniversaries, or family reunions — where every detail is crafted with care.",
-                            img: "/assets/events/private.jpg",
+                            img: "../assets/images/private.jpg",
                         },
                     ].map((item, i) => (
                         <motion.div
@@ -156,11 +156,11 @@ const EventsCelebrations = () => {
                         className="flex gap-6 overflow-hidden"
                     >
                         {[
-                            "/assets/events/slide1.jpg",
-                            "/assets/events/slide2.jpg",
-                            "/assets/events/slide3.jpg",
-                            "/assets/events/slide4.jpg",
-                            "/assets/events/slide5.jpg",
+                            "../assets/images/slide1.jpg",
+                            "../assets/images/slide2.jpg",
+                            "../assets/images/slide3.jpg",
+                            "../assets/images/slide4.jpg",
+                            "../assets/images/slide5.jpg",
                         ].map((src, i) => (
                             <motion.img
                                 key={i}
