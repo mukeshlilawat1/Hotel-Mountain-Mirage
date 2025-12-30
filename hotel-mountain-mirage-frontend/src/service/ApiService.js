@@ -1,30 +1,28 @@
 import axios from "axios";
-const API = import.meta.env.VITE_API_BASE_URL;
 
 export default class ApiService {
-    static BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
+    // ✅ CRA ENV VARIABLE
+    static BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
     // ============================
-    // 🔐 HEADER HANDLING (FIXED)
+    // 🔐 HEADER HANDLING
     // ============================
     static getHeader(requireAuth = true) {
         const token = localStorage.getItem("token");
         const role = localStorage.getItem("role");
 
-        // Debug info (UNCHANGED)
+        // Debug info
         console.log("🧠 Attaching Headers:", {
             Authorization: token ? `Bearer ${token.substring(0, 20)}...` : "❌ No Token",
             Role: role || "❌ No Role",
+            BASE_URL: ApiService.BASE_URL,
         });
 
         if (requireAuth && (!token || token === "null" || token === "undefined")) {
             console.warn("⚠️ Missing or invalid token. User may not be logged in.");
         }
 
-        // ✅ FIX:
-        // ❌ Empty Authorization header removed
-        // ✅ Header only attached when token exists
         return {
             ...(token ? { Authorization: `Bearer ${token}` } : {}),
             "Content-Type": "application/json",
