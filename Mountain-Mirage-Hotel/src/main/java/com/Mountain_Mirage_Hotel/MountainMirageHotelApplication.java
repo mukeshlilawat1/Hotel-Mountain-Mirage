@@ -1,4 +1,4 @@
-package com.Mountain_Mirage_Hotel.Mountain_Mirage_Hotel;
+package com.Mountain_Mirage_Hotel;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

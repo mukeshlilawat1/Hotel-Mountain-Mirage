@@ -8,9 +8,8 @@ import java.util.List;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Response {
-
-    private int statusCode;
-    private String message;
+    private int StatusCode;
+    private String Message;
 
     private String token;
     private String role;
@@ -20,9 +19,8 @@ public class Response {
     private UserDTO user;
     private RoomDTO room;
     private BookingDTO booking;
-    private List<UserDTO> userList;
-    private List<RoomDTO> roomList;
-    private List<BookingDTO> bookingList;
 
-
+    private List<UserDTO> userDTOList;
+    private List<RoomDTO> roomDTOList;
+    private List<BookingDTO> bookingDTOList;
 }

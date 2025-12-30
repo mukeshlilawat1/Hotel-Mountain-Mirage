@@ -12,24 +12,23 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "users")
+@Table(name = "usesrs")
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Email is required")
+    @NotBlank(message = "Email Is Required")
     @Column(unique = true)
     private String email;
 
-    @NotBlank(message = "Name is required")
+    @NotBlank(message = "Name is Required")
     private String name;
 
-    @NotBlank(message = "Phone Number is required")
-    private String phoneNumber;
+    private String phonenumber;
 
-    @NotBlank(message = "Password is required")
+    @NotBlank(message = "Password is Required")
     private String password;
 
     private String role;
@@ -65,5 +64,17 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", phonenumber='" + phonenumber + '\'' +
+                ", password='" + password + '\'' +
+                ", role='" + role + '\'' +
+                '}';
     }
 }

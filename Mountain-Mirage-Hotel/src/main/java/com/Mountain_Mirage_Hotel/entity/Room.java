@@ -10,9 +10,9 @@ import java.util.List;
 
 @Data
 @Entity
+@ToString
 @Table(name = "rooms")
 public class Room {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,18 +22,20 @@ public class Room {
     private BigDecimal roomPrice;
     private String roomPhotoUrl;
     private String roomDescription;
+
     @OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<Booking> bookings = new ArrayList<>();
 
 
-    @Override
-    public String toString() {
-        return "Room{" +
-                "id=" + id +
-                ", roomType='" + roomType + '\'' +
-                ", roomPrice=" + roomPrice +
-                ", roomPhotoUrl='" + roomPhotoUrl + '\'' +
-                ", roomDescription='" + roomDescription + '\'' +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Room{" +
+//                "id=" + id +
+//                ", roomType='" + roomType + '\'' +
+//                ", roomPrice=" + roomPrice +
+//                ", roomPhotoUrl='" + roomPhotoUrl + '\'' +
+//                ", description='" + roomDescription + '\'' +
+//                '}';
+//    }
 }

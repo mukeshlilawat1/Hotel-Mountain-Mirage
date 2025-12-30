@@ -7,6 +7,4 @@ import java.util.Optional;
 
 public interface BookingRepository extends JpaRepository<Booking, Long> {
     Optional<Booking> findByBookingConfirmationCode(String bookingConfirmationCode);
-
-    Long id(Long id);
 }
