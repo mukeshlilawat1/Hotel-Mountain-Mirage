@@ -1,27 +1,30 @@
 import axios from "axios";
 
 export default class ApiService {
-    static BASE_URL = "http://localhost:8080";
+    static BASE_URL = "http://localhost:5000";
 
-    // ✅ Helper: Safely get headers (with token validation + debug)
+    // ============================
+    // 🔐 HEADER HANDLING (FIXED)
+    // ============================
     static getHeader(requireAuth = true) {
         const token = localStorage.getItem("token");
         const role = localStorage.getItem("role");
 
-        // Debug info for development
+        // Debug info (UNCHANGED)
         console.log("🧠 Attaching Headers:", {
             Authorization: token ? `Bearer ${token.substring(0, 20)}...` : "❌ No Token",
             Role: role || "❌ No Role",
         });
 
-        // ❌ Prevent sending undefined/invalid token
         if (requireAuth && (!token || token === "null" || token === "undefined")) {
             console.warn("⚠️ Missing or invalid token. User may not be logged in.");
-            return { "Content-Type": "application/json" };
         }
 
+        // ✅ FIX:
+        // ❌ Empty Authorization header removed
+        // ✅ Header only attached when token exists
         return {
-            Authorization: `Bearer ${token}`,
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
             "Content-Type": "application/json",
         };
     }
@@ -78,10 +81,14 @@ export default class ApiService {
 
     /** 👤 USERS SECTION */
 
+    // ============================
+    // 👤 USERS SECTION
+    // ============================
     static async getAllUsers() {
-        const response = await axios.get(`${this.BASE_URL}/users/all`, {
-            headers: this.getHeader(),
-        });
+        const response = await axios.get(
+            `${this.BASE_URL}/users/all`,
+            { headers: this.getHeader() }
+        );
         return response.data;
     }
 
@@ -91,33 +98,36 @@ export default class ApiService {
             throw new Error("User not logged in or token missing.");
         }
 
-        const response = await axios.get(`${this.BASE_URL}/users/get-logged-in-profile-info`, {
-            headers,
-        });
+        const response = await axios.get(
+            `${this.BASE_URL}/users/get-logged-in-profile-info`,
+            { headers }
+        );
         return response.data;
     }
 
     static async getUser(userId) {
-        const response = await axios.get(`${this.BASE_URL}/users/get-by-id/${userId}`, {
-            headers: this.getHeader(),
-        });
+        const response = await axios.get(
+            `${this.BASE_URL}/users/get-by-id/${userId}`,
+            { headers: this.getHeader() }
+        );
         return response.data;
     }
 
     static async getUserBookings(userId) {
-        const response = await axios.get(`${this.BASE_URL}/users/get-user-bookings/${userId}`, {
-            headers: this.getHeader(),
-        });
+        const response = await axios.get(
+            `${this.BASE_URL}/users/get-user-bookings/${userId}`,
+            { headers: this.getHeader() }
+        );
         return response.data;
     }
 
     static async deleteUser(userId) {
-        const response = await axios.delete(`${this.BASE_URL}/users/delete/${userId}`, {
-            headers: this.getHeader(),
-        });
+        const response = await axios.delete(
+            `${this.BASE_URL}/users/delete/${userId}`,
+            { headers: this.getHeader() }
+        );
         return response.data;
     }
-
     /** 🏨 ROOMS SECTION */
 
     static async addRoom(formData) {

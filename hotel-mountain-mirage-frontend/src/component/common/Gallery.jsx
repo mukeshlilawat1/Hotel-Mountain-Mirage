@@ -43,7 +43,7 @@ const Gallery = () => {
             {/* ================= HERO SECTION ================= */}
             <section className="relative h-[75vh] flex items-center justify-center overflow-hidden">
                 <motion.img
-                    src="/assets/images/hotel.webp"
+                    src="../assets/images/hotel.webp"
                     alt="Gallery Hero"
                     initial={{ scale: 1 }}
                     animate={{ scale: 1.1 }}

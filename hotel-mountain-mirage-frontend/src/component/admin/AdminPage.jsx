@@ -8,17 +8,38 @@ const AdminPage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        const token = localStorage.getItem("token");
+        const role = localStorage.getItem("role");
+
+        if (!token) {
+            navigate("/login", { replace: true });
+            return;
+        }
+
+        // 🔥 MAIN FIX HERE
+        const normalizedRole = role?.replace("ROLE_", "");
+
+        if (normalizedRole !== "ADMIN") {
+            navigate("/", { replace: true });
+            return;
+        }
+
         const fetchAdminName = async () => {
             try {
                 const response = await ApiService.getUserProfile();
                 setAdminName(response.user.name);
             } catch (error) {
-                console.error("Error fetching admin details:", error.message);
+                console.error("Admin profile error:", error);
+
+                if (!localStorage.getItem("token")) {
+                    navigate("/login", { replace: true });
+                }
             }
         };
 
         fetchAdminName();
-    }, []);
+    }, [navigate]);
+
 
     const handleLogout = () => {
         ApiService.logout();
@@ -30,7 +51,11 @@ const AdminPage = () => {
             {/* 🏨 Header */}
             <div className="text-center mb-10 animate-fadeIn">
                 <h1 className="text-4xl md:text-5xl font-extrabold text-gray-800 tracking-tight mb-2">
-                    Welcome Back, <span className="text-emerald-500">{adminName || "Admin"}</span> 👋
+                    Welcome Back,{" "}
+                    <span className="text-emerald-500">
+                        {adminName || "Admin"}
+                    </span>{" "}
+                    👋
                 </h1>
                 <p className="text-gray-500 text-sm md:text-base">
                     Manage your hotel operations efficiently with full control.
@@ -44,9 +69,16 @@ const AdminPage = () => {
                     onClick={() => navigate("/admin/manage-rooms")}
                     className="cursor-pointer bg-white border border-gray-200 rounded-2xl shadow-lg p-8 flex flex-col items-center text-center hover:shadow-2xl hover:scale-[1.03] transition-all duration-300"
                 >
-                    <Building2 className="text-emerald-500 mb-3" size={40} />
-                    <h3 className="text-lg font-semibold text-gray-800">Manage Rooms</h3>
-                    <p className="text-sm text-gray-500 mt-1">Add, edit, or remove rooms with ease.</p>
+                    <Building2
+                        className="text-emerald-500 mb-3"
+                        size={40}
+                    />
+                    <h3 className="text-lg font-semibold text-gray-800">
+                        Manage Rooms
+                    </h3>
+                    <p className="text-sm text-gray-500 mt-1">
+                        Add, edit, or remove rooms with ease.
+                    </p>
                 </div>
 
                 {/* Manage Bookings */}
@@ -54,8 +86,13 @@ const AdminPage = () => {
                     onClick={() => navigate("/admin/manage-bookings")}
                     className="cursor-pointer bg-white border border-gray-200 rounded-2xl shadow-lg p-8 flex flex-col items-center text-center hover:shadow-2xl hover:scale-[1.03] transition-all duration-300"
                 >
-                    <CalendarCheck2 className="text-blue-500 mb-3" size={40} />
-                    <h3 className="text-lg font-semibold text-gray-800">Manage Bookings</h3>
+                    <CalendarCheck2
+                        className="text-blue-500 mb-3"
+                        size={40}
+                    />
+                    <h3 className="text-lg font-semibold text-gray-800">
+                        Manage Bookings
+                    </h3>
                     <p className="text-sm text-gray-500 mt-1">
                         Review, approve, or cancel bookings easily.
                     </p>
@@ -66,9 +103,16 @@ const AdminPage = () => {
                     onClick={() => navigate("/admin/manage-users")}
                     className="cursor-pointer bg-white border border-gray-200 rounded-2xl shadow-lg p-8 flex flex-col items-center text-center hover:shadow-2xl hover:scale-[1.03] transition-all duration-300"
                 >
-                    <UserCog className="text-amber-500 mb-3" size={40} />
-                    <h3 className="text-lg font-semibold text-gray-800">Manage Users</h3>
-                    <p className="text-sm text-gray-500 mt-1">View and manage registered users.</p>
+                    <UserCog
+                        className="text-amber-500 mb-3"
+                        size={40}
+                    />
+                    <h3 className="text-lg font-semibold text-gray-800">
+                        Manage Users
+                    </h3>
+                    <p className="text-sm text-gray-500 mt-1">
+                        View and manage registered users.
+                    </p>
                 </div>
             </div>
 

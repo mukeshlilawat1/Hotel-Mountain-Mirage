@@ -37,6 +37,7 @@ import PrivacyPolicy from './component/common/PrivacyPolicy';
 import TermsAndConitons from './component/common/TermsAndConditions';
 import SupportPage from './component/common/Support';
 import FAQs from './component/common/FAQs';
+import ManageUsersPage from './component/admin/ManageUserPage';
 
 function App() {
   return (
@@ -81,6 +82,7 @@ function App() {
             <Route path='/admin' element={<AdminRoute element={<AdminPage />} />} />
             <Route path='/admin/manage-rooms' element={<AdminRoute element={<ManageRoomPage />} />} />
             <Route path='/admin/manage-bookings' element={<AdminRoute element={<ManageBookingsPage />} />} />
+            <Route path='/admin/manage-users' element={<AdminRoute element={<ManageUsersPage/>}/>}/>
             <Route path='/admin/add-room' element={<AdminRoute element={<AddRoomPage />} />} />
             <Route path='/admin/edit-room/:roomId' element={<AdminRoute element={<EditRoomPage />} />} />
             <Route path='/admin/edit-booking/:bookingCode' element={<AdminRoute element={<EditBookingPage />} />} />
