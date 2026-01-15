@@ -8,7 +8,6 @@
   <img src="https://img.shields.io/github/issues/mukeshlilawat1/Hotel-Mountain-Mirage" alt="Open Issues" />
   <img src="https://img.shields.io/github/license/mukeshlilawat/Hotel-Mountain-Mirage" alt="LICENSE" />
 </p>
----
 
 ## ✨ Overview
 
