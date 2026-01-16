@@ -34,7 +34,7 @@ Hotel-Mountain-Mirage is a **full-stack hotel booking and management web applica
 | Frontend   | Backend      | Database   | Cloud    | Security    |
 |------------|-------------|------------|----------|-------------|
 | ReactJS    | Spring Boot | PostgreSQL | AWS S3   | JWT         |
-|            | Maven       |            |          | Spring Sec. |
+| Docker     | Maven       |            |          | Spring Sec. |
 
 ---
 
