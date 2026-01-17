@@ -12,7 +12,6 @@
 ## ✨ Overview
 
 Hotel-Mountain-Mirage is a **full-stack hotel booking and management web application** built with React.js (Frontend) and Spring Boot (Backend). It integrates secure authentication using Spring Security with JWT and is deployed using AWS services. This project demonstrates real-world development skills including role-based access control, RESTful API design, and secure cloud deployment. 🌄
-
 ---
 
 ## 🚀 Features
