@@ -25,6 +25,7 @@ Hotel-Mountain-Mirage is a **full-stack hotel booking and management web applica
 - Cloud deployment with AWS S3 ☁️
 - Responsive UI with React ⚡
 - Maven build support 📦
+
 ---
 
 ## 🧩 Tech Stack
